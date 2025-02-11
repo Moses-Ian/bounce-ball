@@ -1,0 +1,16 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "browser-sync start --server -f -w",
+    "deploy": "gh-pages -d ."
+  },
+  "keywords": [],
+  "author": "Ian Moses",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.2",
+    "gh-pages": "^6.3.0"
+  }
+}
