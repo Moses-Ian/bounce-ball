@@ -6,6 +6,8 @@ var softLimitKick;
 var particleLifetime;
 var particleLifeRange;
 var particleMaxSpeed;
+var shrinkSpeed;
+var minSize;
 
 function createParameters() {
     // physics
@@ -26,4 +28,8 @@ function createParameters() {
     particleLifeRange = 10;
     particleMaxSpeed = 0.6;
     particleMaxAlpha = 255;
+
+    // ball trail
+    shrinkSpeed = 1;
+    minSize = 15;
 }

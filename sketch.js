@@ -3,6 +3,7 @@ let spinner;
 var impactPoint;
 let spinners;
 var particles;
+let ballTrail;
 
 function setup() {
   // put setup code here
@@ -23,11 +24,17 @@ function setup() {
 	spinners.push(new Spinner(width / 2, height / 2, 260, .05, .0212, color2));
 
 	particles = [];
+
+	ballTrail = new BallTrail();
 }
 
 function draw() {
   // put drawing code here
 	background(51);
+
+	ballTrail.add(ball);
+	ballTrail.update();
+	ballTrail.show();
 
 	ball.update();
 	spinners.forEach(spinner => ball.collide(spinner));
