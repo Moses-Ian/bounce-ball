@@ -2,27 +2,37 @@ class Spinner {
     constructor(x, y, rad, cutoutPercent, angVel, color) {
         this.pos = createVector(x, y);
         this.rad = rad;
-        this.cutoutPercent = cutoutPercent;
+        this.cutout = TWO_PI * cutoutPercent;
         this.angle = 0;
         this.angVel = angVel;
         this.color = color;
         this.mass = 1;
         this.vel = createVector(0, 0);
+        this.exists = true;
     }
 
     update() {
         this.angle += this.angVel;
+        if (this.angle > TWO_PI)
+            this.angle -= TWO_PI;
+    }
+
+    destroy() {
+        this.exists = false;
     }
 
     show() {
+        if (!this.exists)
+            return;
+
         push();
         translate(this.pos);
-        rotate(this.angle);
+        scale(1, -1);
+        rotate(-this.angle);
         stroke(this.color);
         noFill();
         strokeWeight(2);
-        let cutout = TWO_PI * this.cutoutPercent; // 5% of the arc
-        arc(0, 0, this.rad * 2, this.rad * 2, cutout / 2, TWO_PI - cutout / 2);
+        arc(0, 0, this.rad * 2, this.rad * 2, 0, TWO_PI - this.cutout);
         pop();
     }
 }

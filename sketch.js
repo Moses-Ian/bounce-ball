@@ -1,5 +1,7 @@
 let ball;
 let spinner;
+var impactPoint;
+let spinners;
 
 function setup() {
   // put setup code here
@@ -7,8 +9,9 @@ function setup() {
 	canvas.parent('sketch-container');
 	createParameters();
 
-	ball = new Ball(200, 200, 10, 0, ballRad);
-	spinner = new Spinner(width / 2, height / 2, 200, .05, .02, color2);
+	ball = new Ball(200, 200, 12, -5, ballRad);
+	spinners = [];
+	spinners.push(new Spinner(width / 2, height / 2, 200, .05, .02, color2));
 }
 
 function draw() {
@@ -16,9 +19,11 @@ function draw() {
 	background(51);
 
 	ball.update();
-	ball.collide(spinner);
+	spinners.forEach(spinner => ball.collide(spinner));
 	ball.show();
 
-	spinner.update();
-	spinner.show();
+	spinners.forEach(spinner => {
+		spinner.update();
+		spinner.show();
+	});
 }

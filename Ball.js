@@ -30,20 +30,28 @@ class Ball {
 		}
 	}
 
-	// https://www.youtube.com/watch?v=GfmV6rPd4C0
-	// https://www.youtube.com/watch?v=dJNFPv9Mj-Y
 	collide(spinner) {
+		if (!spinner.exists)
+			return;
+
 		// we start out inside the spinner
-
-
 		let dist = this.pos.dist(spinner.pos);
 		if (dist + this.rad > spinner.rad) {
+			//noLoop();
 			let oldVelMag = this.vel.mag();
 			let massSum = this.mass + spinner.mass;
 			let impactVector = p5.Vector.sub(spinner.pos, this.pos);
 			let velDiff = p5.Vector.sub(spinner.vel, this.vel);
 			let velMag = this.vel.mag();
 			let angle = this.vel.angleBetween(impactVector);
+
+			// is the impact vector in the cutout range?
+			impactPoint = this.pos.sub(spinner.pos).setMag(spinner.rad).add(spinner.pos);
+			let impactAngle = p5.Vector.sub(impactPoint, spinner.pos).heading();
+			if (impactAngle > spinner.angle && impactAngle < spinner.angle + spinner.cutout) {
+				spinner.destroy();
+				return;
+			}
 			
 			// component along the impact vector
 			let impactMag = velMag * cos(angle);
@@ -56,10 +64,6 @@ class Ball {
 			// negate the impactComponent
 			impactComponent.x = -impactComponent.x;
 			impactComponent.y = -impactComponent.y;
-
-			// negate the perpendicular component
-			//perpComponent.x = -perpComponent.x;
-			//perpComponent.y = -perpComponent.y;
 
 			// the new velocity is the sum of the negated impact component and the perpendicular component
 			this.vel = impactComponent;
