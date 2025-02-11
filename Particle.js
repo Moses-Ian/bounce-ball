@@ -1,7 +1,7 @@
 class Particle {
-	constructor(x, y, color) {
+	constructor(x, y, _color) {
 		this.pos = createVector(x, y);
-		this.color = color;
+		this._color = copyColor(_color);
 		this.rad = 4;
 		this.vel = p5.Vector.random2D();
 		this.vel.setMag(random() * particleMaxSpeed);
@@ -14,12 +14,12 @@ class Particle {
 		this.life--;
 		if (this.life <= 0)
 			this.exists = false;
-		this.color.setAlpha(particleMaxAlpha * this.life / (particleLifetime + particleLifeRange));
+		this._color.setAlpha(particleMaxAlpha * this.life / (particleLifetime + particleLifeRange));
 	}
 
 	show() {
 		noStroke();
-		fill(this.color);
+		fill(this._color);
 		circle(this.pos.x, this.pos.y, this.rad);
 	}
 }
