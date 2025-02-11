@@ -6,6 +6,8 @@ class Spinner {
         this.angle = 0;
         this.angVel = angVel;
         this.color = color;
+        this.mass = 1;
+        this.vel = createVector(0, 0);
     }
 
     update() {
