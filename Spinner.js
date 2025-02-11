@@ -19,6 +19,9 @@ class Spinner {
 
     destroy() {
         this.exists = false;
+        for (let i = this.cutout + this.angle; i < TWO_PI + this.angle; i += TWO_PI / 180) {
+            particles.push(new Particle(this.pos.x + this.rad * cos(i), this.pos.y + this.rad * sin(i), this.color));
+        }
     }
 
     show() {

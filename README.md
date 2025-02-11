@@ -12,6 +12,7 @@ https://moses-ian.github.io/snake-A-Star/
 ## Credits
 
 https://www.youtube.com/watch?v=dJNFPv9Mj-Y
+https://www.youtube.com/watch?v=UcdigVaIYAk
 
 ## Created by Ian Moses
 
