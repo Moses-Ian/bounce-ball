@@ -12,6 +12,7 @@ let noteCount = 0;
 let noteButton;
 let notes;
 let mute = false;
+let audioState = false;
 
 function preload() {
 	song = loadSound("./sounds/9024harpsichordstyle1.ogg");
@@ -75,7 +76,7 @@ function draw() {
 	spinners.forEach(spinner => {
 		let didColide = ball.collide(spinner);
 		if (didColide)
-			playNote();
+			tryPlayNote();
 	});
 	ball.show();
 
@@ -107,9 +108,14 @@ function updateVolume() {
 	song.setVolume(volumeSlider.value());
 }
 
-function playNote() {
+function tryPlayNote() {
 	if (mute)
 		return;
+
+	if (getAudioContext().state !== 'running') {
+		getAudioContext().resume();
+		return;
+	}
 
 	notes[noteIndex].play();
 	noteIndex++;
