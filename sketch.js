@@ -4,6 +4,27 @@ var impactPoint;
 let spinners;
 var particles;
 let ballTrail;
+var song;
+let muteButton;
+let volumeSlider;
+let noteIndex;
+let noteCount = 0;
+let noteButton;
+let notes;
+let mute = false;
+
+function preload() {
+	song = loadSound("./sounds/9024harpsichordstyle1.ogg");
+	notes = [];
+	for (let i = 1; i <= 100; i++) {
+		let num = i.toString().padStart(2, '0');	// chat-gpt
+		notes.push(loadSound(`./sounds/chime_-${num}.mp3`));
+	}
+	for (let i = 1; i <= 100; i++) {
+		let num = i.toString().padStart(2, '0');	// chat-gpt
+		notes.push(loadSound(`./sounds/chime2-${num}.mp3`));
+	}
+}
 
 function setup() {
   // put setup code here
@@ -11,7 +32,7 @@ function setup() {
 	canvas.parent('sketch-container');
 	createParameters();
 
-	ball = new Ball(200, 200, 0, 0, ballRad);
+	ball = new Ball(200, 200, 1, 0, ballRad);
 	//ball = new Ball(200, 200, 12, 0, ballRad);
 
 	spinners = [];
@@ -26,10 +47,24 @@ function setup() {
 	particles = [];
 
 	ballTrail = new BallTrail();
+
+	// sound
+	noteIndex = 0;
+	
+	muteButton = createButton('Mute');
+	muteButton.position(10, 10);
+	muteButton.mousePressed(toggleMute);
+
+	volumeSlider = createSlider(0, 1, 0.5, 0.01);
+	volumeSlider.position(10, 40);
+	volumeSlider.input(updateVolume);
+
+	//noteButton = createButton('Note');
+	//noteButton.position(10, 60);
+	//noteButton.mousePressed(playNote);
 }
 
 function draw() {
-  // put drawing code here
 	background(51);
 
 	ballTrail.add(ball);
@@ -37,7 +72,11 @@ function draw() {
 	ballTrail.show();
 
 	ball.update();
-	spinners.forEach(spinner => ball.collide(spinner));
+	spinners.forEach(spinner => {
+		let didColide = ball.collide(spinner);
+		if (didColide)
+			playNote();
+	});
 	ball.show();
 
 	spinners.forEach(spinner => {
@@ -58,4 +97,27 @@ function draw() {
 		if (!particles[i].exists)
 			particles.splice(i, 1);
 
+}
+
+function toggleMute() {
+	mute = !mute;
+}
+
+function updateVolume() {
+	song.setVolume(volumeSlider.value());
+}
+
+function playNote() {
+	if (mute)
+		return;
+
+	notes[noteIndex].play();
+	noteIndex++;
+	if (noteIndex >= notes.length)
+		noteIndex = 0;
+}
+
+function stopSong() {
+	console.log('stop');
+	song.stop();
 }
